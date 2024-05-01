@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/di/app_module.dart';
+import 'package:weather_app/domain/use_cases/weather/get_current_weather_use_case.dart';
+import 'package:weather_app/utils/connection_manager.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
+  GetCurrentWeatherUseCase(getIt(), getIt())("Damascus").listen((event) {
+    print(event);
+  });
   runApp(const MyApp());
 }
 
