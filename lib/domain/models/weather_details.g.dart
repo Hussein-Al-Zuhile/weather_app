@@ -33,4 +33,8 @@ const _$WindDirectionEnumMap = {
   WindDirection.east: 'E',
   WindDirection.south: 'S',
   WindDirection.west: 'W',
+  WindDirection.northWest: 'NW',
+  WindDirection.northEast: 'NE',
+  WindDirection.southWest: 'SW',
+  WindDirection.southEast: 'SE',
 };

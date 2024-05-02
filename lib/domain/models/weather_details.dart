@@ -45,4 +45,12 @@ enum WindDirection {
   south,
   @JsonValue('W')
   west,
+  @JsonValue('NW')
+  northWest,
+  @JsonValue('NE')
+  northEast,
+  @JsonValue('SW')
+  southWest,
+  @JsonValue('SE')
+  southEast,
 }

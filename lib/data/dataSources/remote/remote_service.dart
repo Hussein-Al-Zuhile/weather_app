@@ -1,15 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:weather_app/data/dataSources/remote/responses/current_weather_response.dart';
 
-typedef FutureResponse<T> = Future<Response<T>>;
+part 'remote_service.g.dart';
 
-@lazySingleton
-class RemoteService {
-  final Dio dio;
 
-  RemoteService({required this.dio});
+typedef FutureResponse<T> = Future<HttpResponse<T>>;
 
-  FutureResponse<CurrentWeatherResponse> getCurrentWeather(String locationName) =>
-      dio.get("current.json", queryParameters: {'q': locationName});
+
+@RestApi()
+abstract class RemoteService {
+
+  factory RemoteService(Dio dio) = _RemoteService;
+
+  @GET('current.json')
+  FutureResponse<CurrentWeatherResponse> getCurrentWeather(@Query('q') String locationName,
+      {@Query('key') String key = 'bc619f0b16ba41f4aa873533242904'});
 }

@@ -6,11 +6,10 @@ import 'package:weather_app/domain/base/state.dart';
 
 @lazySingleton
 final class WeatherRepository extends BaseRepository {
-  final RemoteService remoteService;
+  final RemoteService _remoteService;
 
-  WeatherRepository(this.remoteService);
+  WeatherRepository(this._remoteService);
 
   FutureState<CurrentWeatherResponse> getCurrentWeather(String locationName) =>
-      sendRemoteRequest(() => remoteService.getCurrentWeather(locationName));
-
+      sendRemoteRequest(() => _remoteService.getCurrentWeather(locationName));
 }

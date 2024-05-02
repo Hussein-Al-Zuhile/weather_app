@@ -12,7 +12,7 @@ Location _$LocationFromJson(Map<String, dynamic> json) => Location(
       country: json['country'] as String,
       lat: (json['lat'] as num).toDouble(),
       lon: (json['lon'] as num).toDouble(),
-      locationTime: json['locationTime'] as String,
+      localtime: json['localtime'] as String,
     );
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
@@ -21,5 +21,5 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'country': instance.country,
       'lat': instance.lat,
       'lon': instance.lon,
-      'locationTime': instance.locationTime,
+      'localtime': instance.localtime,
     };

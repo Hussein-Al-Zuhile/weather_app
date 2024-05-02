@@ -32,8 +32,7 @@ extension GetItInjectableX on _i1.GetIt {
     final appModule = _$AppModule();
     gh.singleton<_i3.ConnectionManager>(() => _i3.ConnectionManager());
     gh.lazySingleton<_i4.Dio>(() => appModule.dio);
-    gh.lazySingleton<_i5.RemoteService>(
-        () => _i5.RemoteService(dio: gh<_i4.Dio>()));
+    gh.lazySingleton<_i5.RemoteService>(() => appModule.remoteService);
     gh.lazySingleton<_i6.WeatherRepository>(
         () => _i6.WeatherRepository(gh<_i5.RemoteService>()));
     gh.factory<_i7.GetCurrentWeatherUseCase>(() => _i7.GetCurrentWeatherUseCase(

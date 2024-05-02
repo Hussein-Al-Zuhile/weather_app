@@ -1,17 +1,17 @@
 import 'package:weather_app/data/dataSources/remote/base/exceptions.dart';
 
-sealed class State<T> {
+sealed class DomainState<T> {
   final String? message;
 
-  State(this.message);
+  DomainState({this.message});
 
-  factory State.initial({String? message}) => Initial<T>(message);
+  factory DomainState.initial({String? message}) => Initial<T>(message: message);
 
-  factory State.loading({String? message}) => Loading<T>(message);
+  factory DomainState.loading({String? message}) => Loading<T>(message: message);
 
-  factory State.success(T data, {String? message}) => Success<T>(data, message);
+  factory DomainState.success(T data, {String? message}) => Success<T>(data, message: message);
 
-  factory State.failure({Exception? exception, String? message}) =>
+  factory DomainState.failure({Exception? exception, String? message}) =>
       Failure<T>(exception, message: message);
 
   @override
@@ -20,30 +20,31 @@ sealed class State<T> {
   }
 }
 
-class Initial<T> extends State<T> {
-  Initial(super.message);
+class Initial<T> extends DomainState<T> {
+  Initial({super.message});
 }
 
-class Loading<T> extends State<T> {
-  Loading(super.message);
+class Loading<T> extends DomainState<T> {
+  Loading({super.message});
 }
 
 class Refreshing<T> extends Loading<T> {
-  Refreshing(super.message);
+  Refreshing({super.message});
 }
 
-class Success<T> extends State<T> {
+class Success<T> extends DomainState<T> {
   final T data;
 
-  Success(this.data, super.message);
+  Success(this.data, {super.message});
 }
 
-class Failure<T> extends State<T> {
+class Failure<T> extends DomainState<T> {
   final Exception? exception;
 
   Failure(this.exception, {String? message})
-      : super(message ??
-            ((exception != null && exception is CustomException && exception.message != null)
-                ? exception.message!
-                : 'An error has occurred'));
+      : super(
+            message: message ??
+                ((exception != null && exception is CustomException && exception.message != null)
+                    ? exception.message!
+                    : 'An error has occurred'));
 }

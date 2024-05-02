@@ -12,16 +12,16 @@ abstract base class RemoteUseCase<T> extends UseCase {
 
   RemoteUseCase(this._connectionManager);
 
-  Stream<State<T>> execute(FutureState<T> Function() remoteRequest) async* {
+  Stream<DomainState<T>> execute(FutureState<T> Function() remoteRequest) async* {
     try {
       final isInternetAvailable = await _connectionManager.isInternetAvailable();
 
       if (!isInternetAvailable) {
-        yield State.failure(exception: NoInternetException());
+        yield DomainState.failure(exception: NoInternetException());
         return;
       }
 
-      yield State.loading();
+      yield DomainState.loading();
 
       final resultState = await remoteRequest();
 
@@ -29,7 +29,7 @@ abstract base class RemoteUseCase<T> extends UseCase {
 
     } on Exception catch (e) {
       printInDebug(e);
-      yield State.failure(exception: e);
+      yield DomainState.failure(exception: e);
     }
   }
 }

@@ -5,4 +5,5 @@ final _dioOptions = BaseOptions(
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10));
 
-final dioSingleton = Dio(_dioOptions);
+final dioSingleton = Dio(_dioOptions)..interceptors.add(LogInterceptor(requestBody: true,responseBody: true));
+

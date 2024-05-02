@@ -10,7 +10,7 @@ final class GetCurrentWeatherUseCase extends RemoteUseCase<CurrentWeatherRespons
 
   GetCurrentWeatherUseCase(super.connectionManager, this.weatherRepository);
 
-  Stream<State<CurrentWeatherResponse>> call(String locationName) =>
+  Stream<DomainState<CurrentWeatherResponse>> call(String locationName) =>
       execute(() => weatherRepository.getCurrentWeather(locationName));
 
 }
