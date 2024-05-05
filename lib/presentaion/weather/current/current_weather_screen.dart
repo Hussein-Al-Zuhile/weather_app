@@ -12,12 +12,20 @@ class CurrentWeatherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CurrentWeatherCubit(getIt()),
-      child: BlocBuilder<CurrentWeatherCubit, DomainState<CurrentWeatherResponse>>(
+      child:
+          BlocBuilder<CurrentWeatherCubit, DomainState<CurrentWeatherResponse>>(
         builder: (context, state) {
           if (state is Loading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is Success<CurrentWeatherResponse>) {
-            return Text(state.data.toString());
+            return ListView.separated(
+                itemBuilder: (context, index) {
+                  final item = state.data.weatherDetails.listOfData.entries
+                      .toList()[index];
+                  return Text('${item.key} : ${item.value}');
+                },
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: state.data.weatherDetails.listOfData.length);
           } else {
             return const Placeholder();
           }

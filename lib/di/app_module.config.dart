@@ -13,9 +13,11 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:weather_app/data/dataSources/remote/remote_service.dart' as _i5;
 import 'package:weather_app/data/repository/weather_repository.dart' as _i6;
-import 'package:weather_app/di/app_module.dart' as _i8;
+import 'package:weather_app/di/app_module.dart' as _i9;
 import 'package:weather_app/domain/use_cases/weather/get_current_weather_use_case.dart'
     as _i7;
+import 'package:weather_app/presentaion/weather/current/current_weather_cubit.dart'
+    as _i8;
 import 'package:weather_app/utils/connection_manager.dart' as _i3;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -39,8 +41,10 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i3.ConnectionManager>(),
           gh<_i6.WeatherRepository>(),
         ));
+    gh.factory<_i8.CurrentWeatherCubit>(
+        () => _i8.CurrentWeatherCubit(gh<_i7.GetCurrentWeatherUseCase>()));
     return this;
   }
 }
 
-class _$AppModule extends _i8.AppModule {}
+class _$AppModule extends _i9.AppModule {}

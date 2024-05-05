@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
-import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:weather_app/data/dataSources/remote/responses/current_weather_response.dart';
 

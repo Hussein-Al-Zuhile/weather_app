@@ -22,6 +22,14 @@ class WeatherDetails {
   @JsonKey(name: 'wind_dir')
   final WindDirection windDir;
 
+  late final Map<String, String> listOfData = {
+    'Temperature in C': tempC.toString(),
+    'Temperature in F': tempF.toString(),
+    'Is Day': isDay.isOdd.toString(),
+    'Wind in Kph': windKph.toString(),
+    'Wind Direction': windDir.toString(),
+  };
+
   WeatherDetails(
       {required this.lastUpdated,
       required this.tempC,
@@ -31,7 +39,8 @@ class WeatherDetails {
       required this.windDegree,
       required this.windDir});
 
-  factory WeatherDetails.fromJson(Map<String, dynamic> json) => _$WeatherDetailsFromJson(json);
+  factory WeatherDetails.fromJson(Map<String, dynamic> json) =>
+      _$WeatherDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherDetailsToJson(this);
 }
