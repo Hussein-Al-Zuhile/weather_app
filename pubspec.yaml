@@ -43,6 +43,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   retrofit: ^4.1.0
   logger: ^2.2.0
+  flutter_animate: ^4.5.0
 
 dev_dependencies:
   flutter_test:

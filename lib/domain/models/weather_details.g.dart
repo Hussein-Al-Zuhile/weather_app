@@ -8,13 +8,13 @@ part of 'weather_details.dart';
 
 WeatherDetails _$WeatherDetailsFromJson(Map<String, dynamic> json) =>
     WeatherDetails(
+      Condition.fromJson(json['condition'] as Map<String, dynamic>),
       lastUpdated: json['last_updated'] as String,
       tempC: json['temp_c'] as num,
       tempF: json['temp_f'] as num,
       isDay: (json['is_day'] as num).toInt(),
       windKph: json['wind_kph'] as num,
       windDegree: json['wind_degree'] as num,
-      windDir: $enumDecode(_$WindDirectionEnumMap, json['wind_dir']),
     );
 
 Map<String, dynamic> _$WeatherDetailsToJson(WeatherDetails instance) =>
@@ -25,16 +25,15 @@ Map<String, dynamic> _$WeatherDetailsToJson(WeatherDetails instance) =>
       'is_day': instance.isDay,
       'wind_kph': instance.windKph,
       'wind_degree': instance.windDegree,
-      'wind_dir': _$WindDirectionEnumMap[instance.windDir]!,
+      'condition': instance.condition,
     };
 
-const _$WindDirectionEnumMap = {
-  WindDirection.north: 'N',
-  WindDirection.east: 'E',
-  WindDirection.south: 'S',
-  WindDirection.west: 'W',
-  WindDirection.northWest: 'NW',
-  WindDirection.northEast: 'NE',
-  WindDirection.southWest: 'SW',
-  WindDirection.southEast: 'SE',
-};
+Condition _$ConditionFromJson(Map<String, dynamic> json) => Condition(
+      text: json['text'] as String,
+      icon: json['icon'] as String,
+    );
+
+Map<String, dynamic> _$ConditionToJson(Condition instance) => <String, dynamic>{
+      'text': instance.text,
+      'icon': instance.icon,
+    };
