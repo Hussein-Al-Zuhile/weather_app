@@ -20,3 +20,20 @@ class UnauthorizedException implements CustomException {
   @override
   String? get message => "The user is unauthorized.";
 }
+
+// Location exceptions
+
+class LocationServiceIsDisabled implements CustomException {
+  @override
+  String? get message => "Location services are disabled";
+}
+
+class LocationPermissionsAreDenied implements CustomException {
+  @override
+  String? get message => "Location permissions are denied";
+}
+
+class LocationPermissionsArePermanentlyDenied implements CustomException {
+  @override
+  String? get message => "Location permissions are permanently denied, we cannot request permissions.";
+}

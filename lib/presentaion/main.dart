@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/di/app_module.dart';
+import 'package:weather_app/presentaion/location/location_choosing_screen.dart';
 import 'package:weather_app/presentaion/weather/current/current_weather_screen.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent),
         useMaterial3: true,
       ),
-      home: SafeArea(child: CurrentWeatherScreen()),
+      home: SafeArea(child: LocationChoosingScreen()),
     );
   }
 }

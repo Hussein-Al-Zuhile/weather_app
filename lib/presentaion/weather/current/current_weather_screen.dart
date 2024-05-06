@@ -6,6 +6,7 @@ import 'package:weather_app/data/dataSources/remote/responses/current_weather_re
 import 'package:weather_app/di/app_module.dart';
 import 'package:weather_app/domain/base/state.dart';
 import 'package:weather_app/domain/models/weather_details.dart';
+import 'package:weather_app/presentaion/base/widgets/error_widget.dart';
 import 'package:weather_app/presentaion/weather/current/current_weather_cubit.dart';
 
 class CurrentWeatherScreen extends StatelessWidget implements TickerProvider {
@@ -23,7 +24,8 @@ class CurrentWeatherScreen extends StatelessWidget implements TickerProvider {
             } else if (state is Success<CurrentWeatherResponse>) {
               return WeatherDetailsWidget(weatherDetails: state.data.weatherDetails)
                   .animate(
-                onPlay: (controller) => controller..loop(reverse: true,period: const Duration(seconds: 1)),
+                onPlay: (controller) =>
+                    controller..loop(reverse: true, period: const Duration(seconds: 1)),
               )
                   .custom(builder: (context, value, child) {
                 print(value);
@@ -37,6 +39,13 @@ class CurrentWeatherScreen extends StatelessWidget implements TickerProvider {
                   child: child,
                 );
               });
+            } else if (state is Failure<CurrentWeatherResponse>) {
+              return ErrorPlaceholder(
+                errorState: state,
+                retry: () {
+                  context.read<CurrentWeatherCubit>().getCurrentWeatherDetails("Damascus");
+                },
+              );
             } else {
               return const Placeholder();
             }
