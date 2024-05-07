@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:weather_app/data/dataSources/remote/base/error_response.dart';
 import 'package:weather_app/data/dataSources/remote/base/exceptions.dart';
 import 'package:weather_app/data/dataSources/remote/remote_service.dart';
@@ -12,6 +13,8 @@ import 'package:weather_app/utils/helpers.dart';
 typedef FutureState<T> = Future<DomainState<T>>;
 
 abstract base class BaseRepository {
+
+  @protected
   FutureState<T> sendRemoteRequest<T>(FutureResponse<T> Function() requestExecution) async {
     try {
       final response = await requestExecution();
