@@ -3,19 +3,25 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:weather_app/di/app_module.dart';
 import 'package:weather_app/domain/base/state.dart';
 import 'package:weather_app/domain/models/location_suggestion.dart';
 import 'package:weather_app/presentaion/location/current_location_cubit.dart';
 import 'package:weather_app/presentaion/location/location_suggestions_cubit.dart';
+import 'package:weather_app/presentaion/main/router.dart';
+import 'package:weather_app/utils/extensions.dart';
+import 'package:weather_app/utils/shared_preferences_manager.dart';
 
 class LocationChoosingScreen extends StatelessWidget {
-  const LocationChoosingScreen({super.key});
+  LocationChoosingScreen({super.key});
+
+  final SharedPreferencesManager sharedPreferencesManager = getIt();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        child: MultiBlocProvider(
+    return Scaffold(
+        body: MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => CurrentLocationCubit(getIt()),
@@ -39,68 +45,73 @@ class LocationChoosingScreen extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                Title(
-                    color: Colors.black,
-                    child: const Text('Write down the city you want to check the weather of')),
+              child: Column(
+                  children: [
+                Text(
+                  'Write down the city you want to check the weather of',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 TextField(
                   controller: searchFieldController,
-                  expands: false,
                   onChanged: (value) {
                     context.read<LocationSuggestionsCubit>().getLocationSuggestions(value);
                   },
                 ),
-                BlocBuilder<LocationSuggestionsCubit,
-                    (LocationSuggestion?, DomainState<List<LocationSuggestion>>)>(
+                BlocBuilder<LocationSuggestionsCubit, DomainState<List<LocationSuggestion>>>(
                   builder: (context, state) {
-                    LocationSuggestion? selectedLocation = state.$1;
-                    DomainState<List<LocationSuggestion>> suggestionsState = state.$2;
-                    if (suggestionsState is Loading) {
+                    if (state is Loading) {
                       return const CircularProgressIndicator();
-                    } else if (suggestionsState is Success<List<LocationSuggestion>>) {
-                      final dropdownItems = suggestionsState.data
-                          .map((location) => DropdownMenuItem(
-                              value: location,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    location.name,
-                                    style: Theme.of(context).textTheme.titleLarge,
+                    } else if (state is Success<List<LocationSuggestion>>) {
+                      if (state.data.isNotEmpty) {
+                        return ListView.separated(
+                          itemBuilder: (context, index) {
+                            final location = state.data[index];
+                            return InkWell(
+                              onTap: () async {
+                                final currentLocations =
+                                    await sharedPreferencesManager.getLocations();
+                                final distinctLocations =
+                                    Set.of(currentLocations + [location.name]);
+                                await sharedPreferencesManager
+                                    .setLocations(distinctLocations.toList());
+                                const CurrentWeatherRoute().go(context);
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        location.name,
+                                        style: Theme.of(context).textTheme.titleLarge,
+                                      ),
+                                      Text(location.country,
+                                          style: Theme.of(context).textTheme.titleMedium)
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Text(
-                                    location.country,
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              )))
-                          .toList();
-
-                      if (dropdownItems.isNotEmpty) {
-                        return DropdownButton(
-                          items: dropdownItems,
-                          onChanged: (value) {
-                            context.read<LocationSuggestionsCubit>().updateSelectedLocation(value);
+                                ),
+                              ),
+                            );
                           },
-                          value: selectedLocation,
-                          itemHeight: 66,
+                          itemCount: state.data.length,
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) => const Divider(),
                         );
                       } else {
                         return const Text('No Results Found');
                       }
                     } else {
-                      return const Placeholder();
+                      return Container();
                     }
                   },
                 )
-              ]),
+              ].withSpaceBetween(height: 10)),
             );
           } else if (state is Failure) {
             return Text(state.message!);
           } else {
-            return Placeholder();
+            return Container();
           }
         },
       ),

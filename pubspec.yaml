@@ -46,6 +46,9 @@ dependencies:
   flutter_animate: ^4.5.0
   geolocator: ^11.0.0
   geocode: ^1.0.3
+  gap: ^3.0.1
+  go_router: ^14.0.2
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +64,8 @@ dev_dependencies:
   injectable_generator: ^2.6.1
   json_serializable: ^6.8.0
   retrofit_generator: ^8.1.0
+  go_router_builder: ^2.6.2
+  build_verify: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

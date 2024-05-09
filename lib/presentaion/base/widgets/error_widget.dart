@@ -22,7 +22,7 @@ class ErrorPlaceholder extends StatelessWidget {
         ),
         retry != null
             ? ElevatedButton(onPressed: retry, child: const Text('Retry'))
-            : const Placeholder()
+            : Container()
       ],
     );
   }
