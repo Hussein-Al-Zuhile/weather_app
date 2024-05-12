@@ -83,17 +83,12 @@ class CurrentWeatherScreen extends StatelessWidget implements TickerProvider {
                         .toList(),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    icon: const Icon(Icons.arrow_back))
               ],
             );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           LocationChoosingRoute().go(context);
         },

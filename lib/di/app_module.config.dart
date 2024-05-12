@@ -23,8 +23,8 @@ import 'package:weather_app/domain/use_cases/weather/get_current_weather_use_cas
 import 'package:weather_app/presentaion/location/current_location_cubit.dart'
     as _i11;
 import 'package:weather_app/utils/connection_manager.dart' as _i3;
-import 'package:weather_app/utils/location_manager.dart' as _i5;
-import 'package:weather_app/utils/shared_preferences_manager.dart' as _i6;
+import 'package:weather_app/utils/location_manager.dart' as _i6;
+import 'package:weather_app/utils/shared_preferences_manager.dart' as _i5;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -40,12 +40,12 @@ extension GetItInjectableX on _i1.GetIt {
     final appModule = _$AppModule();
     gh.singleton<_i3.ConnectionManager>(() => _i3.ConnectionManager());
     gh.lazySingleton<_i4.RemoteService>(() => appModule.remoteService);
-    gh.lazySingleton<_i5.LocationManager>(() => _i5.LocationManager());
-    gh.lazySingleton<_i6.SharedPreferencesManager>(
-        () => _i6.SharedPreferencesManager());
+    gh.lazySingleton<_i5.SharedPreferencesManager>(
+        () => _i5.SharedPreferencesManager());
+    gh.lazySingleton<_i6.LocationManager>(() => _i6.LocationManager());
     gh.factory<_i7.GetCurrentLocationUseCase>(() =>
         _i7.GetCurrentLocationUseCase(
-            locationManager: gh<_i5.LocationManager>()));
+            locationManager: gh<_i6.LocationManager>()));
     gh.lazySingleton<_i8.WeatherRepository>(
         () => _i8.WeatherRepository(gh<_i4.RemoteService>()));
     gh.lazySingleton<_i9.LocationRepository>(
