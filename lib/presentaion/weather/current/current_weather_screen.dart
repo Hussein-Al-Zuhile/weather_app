@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,6 +11,7 @@ import 'package:weather_app/domain/models/location_suggestion.dart';
 import 'package:weather_app/domain/models/weather_details.dart';
 import 'package:weather_app/presentaion/base/widgets/circle_indicator.dart';
 import 'package:weather_app/presentaion/base/widgets/error_widget.dart';
+import 'package:weather_app/presentaion/location/location_choosing_screen.dart';
 import 'package:weather_app/presentaion/main/router.dart';
 import 'package:weather_app/presentaion/weather/current/current_weather_cubit.dart';
 import 'package:weather_app/presentaion/weather/current/current_weather_state.dart';
@@ -140,31 +142,49 @@ class WeatherDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        const SizedBox(
-          height: 20,
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => MapDialog(
+                          latitude: currentWeatherResponse.location.lat,
+                          longitude: currentWeatherResponse.location.lon),
+                    ),
+                icon: const Icon(Icons.map)),
+          ),
         ),
-        Text(
-          currentWeatherResponse.location.name,
-          style: Theme.of(context).textTheme.titleLarge,
+        Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              currentWeatherResponse.location.name,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Center(
+                child: Text(
+              currentWeatherResponse.weatherDetails.tempC.toString(),
+              style: Theme.of(context).textTheme.displayLarge,
+            )),
+            const SizedBox(
+              height: 20,
+            ),
+            Image.network(currentWeatherResponse.weatherDetails.condition.iconUrl),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              currentWeatherResponse.weatherDetails.condition.text,
+              style: Theme.of(context).textTheme.titleLarge,
+            )
+          ],
         ),
-        Center(
-            child: Text(
-          currentWeatherResponse.weatherDetails.tempC.toString(),
-          style: Theme.of(context).textTheme.displayLarge,
-        )),
-        const SizedBox(
-          height: 20,
-        ),
-        Image.network(currentWeatherResponse.weatherDetails.condition.iconUrl),
-        const SizedBox(
-          height: 20,
-        ),
-        Text(
-          currentWeatherResponse.weatherDetails.condition.text,
-          style: Theme.of(context).textTheme.titleLarge,
-        )
       ],
     );
   }
