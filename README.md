@@ -1,4 +1,4 @@
-# weather_app
+# Weather App
 
 A Flutter application written in full Clean Architecture way from the prespective of a Senior Android Developer, this app allows you to search locations, add them to a cached list, and see the weather of these locations, besides see the locations on the map.
 
