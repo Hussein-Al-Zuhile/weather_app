@@ -8,6 +8,10 @@ A Flutter application written in full Clean Architecture way from the perspectiv
   - See the current weather state in the selected locations.
   - Cache the locations, so they won't be lost after closing the app.
 
+## Demo
+
+https://github.com/Hussein-Al-Zuhile/weather_app/assets/43495888/9aeaf9ed-2e28-4dd7-b39f-4d6db7083938
+
 ## Components and Structure
   - Written used Clean Architecture Principles and clear way with 3 layers:
       - *Data:* contains the repositories and data sources.
